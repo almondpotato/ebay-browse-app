@@ -3,7 +3,6 @@ from flask import Flask, request, jsonify, session, redirect, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import bleach  # A library for HTML sanitization
-import sqlite3
 import secrets
 import os
 import time
@@ -21,19 +20,6 @@ API_URL = "https://api.ebay.com/buy/browse/v1/item_summary/search"
 
 # Replace with your eBay API key
 API_KEY = "YOUR_EBAY_API_KEY"
-
-# Initialize an SQLite database (you can replace this with your preferred database)
-conn = sqlite3.connect("products.db")
-cursor = conn.cursor()
-cursor.execute("""
-    CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY,
-        title TEXT,
-        price TEXT,
-        url TEXT
-    )
-""")
-conn.commit()
 
 @limiter.request_filter
 def exempt_users():
